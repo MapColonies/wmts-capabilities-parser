@@ -1,8 +1,13 @@
+const { getRuntimeEnvironment, Env } = require("./Environment");
+module.exports = {getWMTSCapabilities};
 function domToJson(dom) {
-  if (dom.nodeType === Node.TEXT_NODE) {
+  const ELEMENT_NODE = 1;
+  const TEXT_NODE = 3;
+
+  if (dom.nodeType === TEXT_NODE) {
     return dom.nodeValue;
   }
-  if (dom.nodeType === Node.ELEMENT_NODE) {
+  if (dom.nodeType === ELEMENT_NODE) {
     const obj = {};
 
     if (dom.attributes.length > 0) {
@@ -25,7 +30,7 @@ function domToJson(dom) {
 
     let childCount = 0;
     for (let child = dom.firstChild; child; child = child.nextSibling) {
-      if (child.nodeType === Node.ELEMENT_NODE) {
+      if (child.nodeType === ELEMENT_NODE) {
         //remove preName of tag (':' can't be read as a propery)
         const childTag = child.tagName.includes(':') ? child.tagName.substring(child.tagName.indexOf(':') + 1) : child.tagName;
         if (!obj[childTag]) {
@@ -41,7 +46,7 @@ function domToJson(dom) {
           obj[childTag].push(childObj);
         }
         childCount++;
-      } else if (child.nodeType === Node.TEXT_NODE) {
+      } else if (child.nodeType === TEXT_NODE) {
         const textContent = child.nodeValue.trim();
         if (textContent !== '') {
           const parentChildCount = dom.childElementCount || 0;
@@ -88,7 +93,17 @@ function getCapabilitiesUrl(url, queryParams) {
   }
 }
 
-  export async function getWMTSCapabilities(url, queryParams, headerParams) {
+function concatParamsToUrl(url, queryParams) {
+  let paramSign = url.includes("?") ? "&" : "?";
+  let fixedUrl = url;
+  for (const [key, value] of Object.entries(queryParams)) {
+    fixedUrl += `${paramSign}${key}=${value}`;
+    paramSign = "&";
+  }
+  return fixedUrl;
+}
+
+  async function getWMTSCapabilities(url, queryParams, headerParams) {
     const SUCCESS_STATUS_CODE = 200;
   
     try {
@@ -107,7 +122,6 @@ function getCapabilitiesUrl(url, queryParams) {
         }
   
         parsedXml = parser.parseFromString(capabilitiesXml, 'text/xml');
-        console.log(domToJson(parsedXml.documentElement));
         return domToJson(parsedXml.documentElement);
       } else {
         throw new Error("Failed to retrieve WMTS capabilities");
