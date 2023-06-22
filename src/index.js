@@ -1,5 +1,5 @@
-const { getRuntimeEnvironment, Env } = require("./Environment");
-module.exports = {getWMTSCapabilities};
+const { getRuntimeEnvironment, Env } = require('./Environment');
+module.exports = { getWMTSCapabilities };
 function domToJson(dom) {
   const ELEMENT_NODE = 1;
   const TEXT_NODE = 3;
@@ -76,14 +76,11 @@ function domToJson(dom) {
 }
 
 function getCapabilitiesUrl(url, queryParams) {
-  if (
-    url.includes("WMTSCapabilities.xml") ||
-    url.includes("REQUEST=GetCapabilities&SERVICE=WMTS")
-  ) {
+  if (url.includes('WMTSCapabilities.xml') || url.includes('REQUEST=GetCapabilities&SERVICE=WMTS')) {
     return concatParamsToUrl(url, queryParams);
   } else {
     //by defalt, KVP capabilities url.
-    if (url.includes("REQUEST=GetCapabilities")) {
+    if (url.includes('REQUEST=GetCapabilities')) {
       const reqUrl = url + `&SERVICE=WMTS`;
       return concatParamsToUrl(reqUrl, queryParams);
     } else {
@@ -94,41 +91,42 @@ function getCapabilitiesUrl(url, queryParams) {
 }
 
 function concatParamsToUrl(url, queryParams) {
-  let paramSign = url.includes("?") ? "&" : "?";
-  let fixedUrl = url;
+  const baseUrl = new URL(url);
+  const allQueryParams = new URLSearchParams(baseUrl.search);
   for (const [key, value] of Object.entries(queryParams)) {
-    fixedUrl += `${paramSign}${key}=${value}`;
-    paramSign = "&";
+    allQueryParams.append(key, value);
   }
-  return fixedUrl;
+
+  const updatedSearchString = allQueryParams.toString();
+  const updatedUrl = url.split('?')[0] + '?' + updatedSearchString;
+  return updatedUrl;
 }
 
-  async function getWMTSCapabilities(url, queryParams, headerParams) {
-    const SUCCESS_STATUS_CODE = 200;
-  
-    try {
-      const reqXmlUrl = getCapabilitiesUrl(url, queryParams);
-      const response = await fetch(reqXmlUrl, { headers: headerParams });
-  
-      if (response.status === SUCCESS_STATUS_CODE) {
-        const capabilitiesXml = await response.text();
-        let parsedXml, parser;
-  
-        if (getRuntimeEnvironment() == Env.Frontend) {
-          parser = new DOMParser();
-        } else {
-          const xmlDom = require('@xmldom/xmldom')
-          parser = new xmlDom.DOMParser();
-        }
-  
-        parsedXml = parser.parseFromString(capabilitiesXml, 'text/xml');
-        return domToJson(parsedXml.documentElement);
+async function getWMTSCapabilities(url, queryParams, headerParams) {
+  const SUCCESS_STATUS_CODE = 200;
+
+  try {
+    const reqXmlUrl = getCapabilitiesUrl(url, queryParams);
+    const response = await fetch(reqXmlUrl, { headers: headerParams });
+
+    if (response.status === SUCCESS_STATUS_CODE) {
+      const capabilitiesXml = await response.text();
+      let parsedXml, parser;
+
+      if (getRuntimeEnvironment() == Env.Frontend) {
+        parser = new DOMParser();
       } else {
-        throw new Error("Failed to retrieve WMTS capabilities");
+        const xmlDom = require('@xmldom/xmldom');
+        parser = new xmlDom.DOMParser();
       }
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : JSON.stringify(error);
-      throw new Error(`Error retrieving WMTS capabilities: ${message}`);
+
+      parsedXml = parser.parseFromString(capabilitiesXml, 'text/xml');
+      return domToJson(parsedXml.documentElement);
+    } else {
+      throw new Error('Failed to retrieve WMTS capabilities');
     }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : JSON.stringify(error);
+    throw new Error(`Error retrieving WMTS capabilities: ${message}`);
   }
+}
