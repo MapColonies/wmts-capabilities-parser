@@ -1,7 +1,7 @@
 {
-  "name": "@map-colonies/ts-npm-package-boilerplate",
-  "version": "1.0.4",
-  "description": "This is template for map colonies typescript packages",
+  "name": "@map-colonies/wmts-capabilities-parser",
+  "version": "1.0.0",
+  "description": "npm package to parse wmts capabilities",
   "main": "./src/index.js",
   "scripts": {
     "test:unit": "jest --config=./tests/configurations/unit/jest.config.js",
@@ -22,12 +22,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MapColonies/ts-npm-package-boilerplate.git"
+    "url": "git+https://github.com/MapColonies/wmts-capabilities-parser.git"
   },
   "author": "MapColonies",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MapColonies/ts-npm-package-boilerplate/issues"
+    "url": "https://github.com/MapColonies/wmts-capabilities-parser/issues"
   },
   "husky": {
     "hooks": {
@@ -35,7 +35,7 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
-  "homepage": "https://github.com/MapColonies/ts-npm-package-boilerplate#readme",
+  "homepage": "https://github.com/MapColonies/wmts-capabilities-parser#readme",
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
@@ -53,10 +53,7 @@
     "prettier": "^2.8.4",
     "pretty-quick": "^3.1.3",
     "standard-version": "^9.5.0",
-    "ts-jest": "^29.0.5",
-    "ts-node": "^9.1.1",
     "typedoc": "^0.24.8",
-    "typescript": "^4.9.5",
     "@xmldom/xmldom": "^0.8.8",
     "leaflet": "1.0.1"
   }
