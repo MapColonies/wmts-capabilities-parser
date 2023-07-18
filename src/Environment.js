@@ -3,6 +3,10 @@ const Env = Object.freeze({
   Frontend: "frontend",
 });
 function getRuntimeEnvironment() {
-  return typeof window === "object" ? Env.Frontend : Env.Backend;
+  return window ? Env.Frontend : Env.Backend;
 }
-module.exports = {Env, getRuntimeEnvironment};
+
+export function isEnvFrontend(){
+  return getRuntimeEnvironment() == Env.Frontend;
+}
+//module.exports = {Env, getRuntimeEnvironment, isEnvFrontend};
