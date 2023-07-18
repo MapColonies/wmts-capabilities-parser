@@ -24,7 +24,7 @@ async function requestParsedCapabilities(url, queryParams, headerParams, parser)
   }
 }
 async function backendGetCapabilities(url, queryParams, headerParams) {
-  if (!currentCapabilities.isLatest()) {
+  if (!currentCapabilities.isLatest() || !currentCapabilities.requestUrl === url) {
     try {
       const xmlDom = require('@xmldom/xmldom');
       const parser = new xmlDom.DOMParser();
@@ -41,8 +41,7 @@ async function backendGetCapabilities(url, queryParams, headerParams) {
 async function frontendGetCapabilities(url, queryParams, headerParams) {
   const parser = new DOMParser();
   const objCapabilities = window.localStorage.getItem('capabilities');
-  const jsonCapabilities = JSON.parse(objCapabilities)
-  
+  const jsonCapabilities = JSON.parse(objCapabilities);
 
   if (jsonCapabilities == null || jsonCapabilities == undefined) {
     const parsedCapabilities = await requestParsedCapabilities(url, queryParams, headerParams, parser);
@@ -50,7 +49,8 @@ async function frontendGetCapabilities(url, queryParams, headerParams) {
     return currentCapabilities.content;
   } else {
     const capabilities = new Capabilities(jsonCapabilities.requestUrl, jsonCapabilities.content, jsonCapabilities.lastUpdatedTime);
-    if (capabilities.isLatest()) {
+    
+    if (capabilities.isLatest() && capabilities.requestUrl === url) {
       return capabilities.content;
     } else {
       const parsedCapabilities = await requestParsedCapabilities(url, queryParams, headerParams, parser);

@@ -99,5 +99,4 @@ export function domToJson(dom) {
     const updatedUrl = url.split('?')[0] + '?' + updatedSearchString;
     return updatedUrl;
   }
-
-  //module.exports = { domToJson, getCapabilitiesUrl};
+  

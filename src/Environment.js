@@ -9,4 +9,3 @@ function getRuntimeEnvironment() {
 export function isEnvFrontend(){
   return getRuntimeEnvironment() == Env.Frontend;
 }
-//module.exports = {Env, getRuntimeEnvironment, isEnvFrontend};
