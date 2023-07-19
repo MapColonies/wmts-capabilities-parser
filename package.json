@@ -46,10 +46,12 @@
     "jest-html-reporters": "^3.1.4",
     "prettier": "^2.8.4",
     "pretty-quick": "^3.1.3",
-    "standard-version": "^9.5.0",
-    "xmldom": "^0.6.0"
+    "standard-version": "^9.5.0"
   },
-  "bundleDependencies": [
+  "bundledDependencies": [
     "xmldom"
-  ]
+  ],
+  "dependencies": {
+    "xmldom": "^0.6.0"
+  }
 }
