@@ -1,7 +1,8 @@
-const { isEnvFrontend } = require('./Environment');
-const { domToJson, getCapabilitiesUrl } = require('./utils');
-const { Capabilities } = require('./capabilities');
-module.exports = { getWMTSCapabilities };
+import { isEnvFrontend } from './Environment.js';
+import { domToJson, getCapabilitiesUrl } from './utils.js';
+import { Capabilities } from './capabilities.js';
+import xmlDom from 'xmldom';
+
 let currentCapabilities = new Capabilities();
 const SUCCESS_STATUS_CODE = 200;
 
@@ -26,9 +27,8 @@ async function requestParsedCapabilities(url, queryParams, headerParams, parser)
 async function backendGetCapabilities(url, queryParams, headerParams) {
   if (!currentCapabilities.isLatest() || !currentCapabilities.requestUrl === url) {
     try {
-      const xmlDom = require('@xmldom/xmldom');
       const parser = new xmlDom.DOMParser();
-      return await requestParsedCapabilities(url, queryParams, headerParams, parser);
+      return (await requestParsedCapabilities(url, queryParams, headerParams, parser)).content;
     } catch (error) {
       const message = error instanceof Error ? error.message : JSON.stringify(error);
       throw new Error(`Error retrieving WMTS capabilities: ${message}`);
@@ -60,7 +60,7 @@ async function frontendGetCapabilities(url, queryParams, headerParams) {
   }
 }
 
-async function getWMTSCapabilities(url, queryParams, headerParams) {
+export async function getWMTSCapabilities(url, queryParams, headerParams) {
   if (isEnvFrontend()) {
     return await frontendGetCapabilities(url, queryParams, headerParams);
   } else {
