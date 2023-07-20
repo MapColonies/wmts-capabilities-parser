@@ -1,12 +1,6 @@
 # Map Colonies Capabilities Parser
 
 
-
-
-**(Table of Contents)**
-
-[TOC]
-
 # Intro
 
 WMTSCapabilitiesParser automates getting XML Capabilities and parsing them to a json.
@@ -15,15 +9,21 @@ Capabilities
 
 Can deal with base Url and capabilities Url.
 
-Deliver pasrsed xml or json from KVP capabilities 
+Deliver parsed xml or json from KVP capabilities 
 
 Deliver parsed xml  or json from RESTful capabilities
 
-Deliver parsed capabilities from base URL
+Deliver parsed capabilities from the base URL
 
 Custom query params
 
 Custom headers
+
+----
+How To use
+-------------
+`npm i wmts-capabilities-parser`
+`import { getWMTSCapabilities } from "@map-colonies/wmts-capabilities-parser";`
 
 ----
 Service
@@ -31,18 +31,18 @@ Service
 #### Functions
 `getWMTSCapabilities(url, queryParams, headersParams)`
 
-#### Purpse/ Usage
-Requets capabilities by URL and returns a Promise - parsed XML of capabilities.
+#### Purpose/ Usage
+Requests capabilities by URL and returns a Promise - parsed XML of capabilities.
 
 #### Output
 `Promise<{}>` - JSON of capabilities. 
 When response did not Succeded - Error("Failed to retrieve WMTS capabilities")
-When request capabilites failed - Error(`Error retrieving WMTS capabilities: ${originalMessage}`)
-retrives capabilities successfully.
+When request capabilities failed - Error(`Error retrieving WMTS capabilities: ${originalMessage}`)
+retrieves capabilities successfully.
 
 #### Example
 
-`const capbilities = await getWMTSCapabilities(
+`const capabilities = await getWMTSCapabilities(
     "https://mapproxyurl/v1",
     { token: authToken }
   );`
