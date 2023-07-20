@@ -23,6 +23,7 @@ Custom headers
 How To use
 -------------
 `npm i wmts-capabilities-parser`
+
 `import { getWMTSCapabilities } from "@map-colonies/wmts-capabilities-parser";`
 
 ----
