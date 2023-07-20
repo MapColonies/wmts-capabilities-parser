@@ -3,7 +3,8 @@
 
 # Intro
 
-WMTSCapabilitiesParser automates getting XML Capabilities and parsing them to a json.
+WMTSCapabilitiesParser automates getting XML Capabilities and parsing them to a json
+
 Capabilities
 -------------
 
