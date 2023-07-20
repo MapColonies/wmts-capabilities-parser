@@ -37,8 +37,11 @@ Requests capabilities by URL and returns a Promise - parsed XML of capabilities.
 
 #### Output
 `Promise<{}>` - JSON of capabilities. 
+
 When response did not Succeded - Error("Failed to retrieve WMTS capabilities")
+
 When request capabilities failed - Error(`Error retrieving WMTS capabilities: ${originalMessage}`)
+
 retrieves capabilities successfully.
 
 #### Example
