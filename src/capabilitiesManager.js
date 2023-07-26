@@ -24,6 +24,7 @@ async function requestParsedCapabilities(url, queryParams, headerParams, parser)
     throw new Error(`Error retrieving WMTS capabilities: ${message}`);
   }
 }
+
 async function backendGetCapabilities(url, queryParams, headerParams) {
   if (!currentCapabilities.isLatest() || !currentCapabilities.requestUrl === url) {
     try {

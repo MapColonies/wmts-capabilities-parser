@@ -52,6 +52,10 @@
     "xmldom"
   ],
   "dependencies": {
+    "mocha": "^10.2.0",
     "xmldom": "^0.6.0"
-  }
+  },
+  "bundleDependencies": [
+    "xmldom"
+  ]
 }

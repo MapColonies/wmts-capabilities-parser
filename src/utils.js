@@ -89,12 +89,18 @@ export function domToJson(dom) {
   }
   
   function concatParamsToUrl(url, queryParams) {
+    //convert to URL type
     const baseUrl = new URL(url);
+    
+    //define as URLSearchParams
     const allQueryParams = new URLSearchParams(baseUrl.search);
+    
+    //append URLSearchParams togther
     for (const [key, value] of Object.entries(queryParams)) {
       allQueryParams.append(key, value);
     }
   
+    //append URLSearchParams to URL and convert it backt to string
     const updatedSearchString = allQueryParams.toString();
     const updatedUrl = url.split('?')[0] + '?' + updatedSearchString;
     return updatedUrl;
