@@ -1,7 +1,7 @@
 import { isEnvFrontend } from './Environment.js';
 import { domToJson, getCapabilitiesUrl } from './utils.js';
 import { Capabilities } from './capabilities.js';
-import xmlDom from 'xmldom';
+import xmlDom from '@xmldom/xmldom';
 
 let currentCapabilities = new Capabilities();
 const SUCCESS_STATUS_CODE = 200;
@@ -50,7 +50,7 @@ async function frontendGetCapabilities(url, queryParams, headerParams) {
     return currentCapabilities.content;
   } else {
     const capabilities = new Capabilities(jsonCapabilities.requestUrl, jsonCapabilities.content, jsonCapabilities.lastUpdatedTime);
-    
+
     if (capabilities.isLatest() && capabilities.requestUrl === url) {
       return capabilities.content;
     } else {
