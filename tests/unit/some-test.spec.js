@@ -10,6 +10,7 @@ describe('getWMTSCapabilities', () => {
       fetch: mockFetch,
     }));
     mockFetch.mockReturnValue('return value');
+    expect(1 + 1).toEqual(2);
 
     // expectation;
   });
